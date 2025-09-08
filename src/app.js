@@ -9,11 +9,19 @@ const adRoutes = require("./routes/ad.routes");
 
 const app = express();
 
+const allowed = process.env.ALLOWED_ORIGIN || "*";
+console.log("🛡️  CORS allow origin:", allowed);
+
 app.use(
   cors({
-    origin: process.env.ALLOWED_ORIGIN || "*",
+    origin: allowed,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+
+app.options("*", cors());
 
 app.use(express.json());
 
