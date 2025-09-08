@@ -9,14 +9,12 @@ const adRoutes = require("./routes/ad.routes");
 
 const app = express();
 
-const allowed = process.env.ALLOWED_ORIGIN || "*";
-console.log("🛡️  CORS allow origin:", allowed);
-
 app.use(
   cors({
-    origin: allowed,
+    origin: process.env.ALLOWED_ORIGIN || "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
@@ -25,12 +23,16 @@ app.options("*", cors());
 
 app.use(express.json());
 
-//app.use("/api/auth", authRoutes);
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true, env: process.env.NODE_ENV || "development" });
+});
+
+
+app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-//app.use("/api/fields", fieldRoutes);
-//app.use("/api/reservations", reservationRoutes);
-//app.use("/api/ads", adRoutes);
-app.use(cors({ origin: process.env.ALLOWED_ORIGIN || "*" }));
+app.use("/api/fields", fieldRoutes);
+app.use("/api/reservations", reservationRoutes);
+app.use("/api/ads", adRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: "❌ Ruta no encontrada" });

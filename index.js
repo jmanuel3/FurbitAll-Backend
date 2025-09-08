@@ -1,15 +1,13 @@
 require("dotenv").config();
 
-const app = require("./src/app"); 
+const app = require("./src/app");
 const connectDB = require("./src/config/db");
 
 const PORT = process.env.PORT || 4000;
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () => {
-      
-    });
+    app.listen(PORT, () => {});
   })
   .catch((err) => {
     console.error("❌ Error al conectar con la base de datos:", err);
