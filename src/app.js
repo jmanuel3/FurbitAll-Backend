@@ -9,16 +9,20 @@ const adRoutes = require("./routes/ad.routes");
 
 const app = express();
 
-const ALLOW = new Set([
-  "https://wonderful-jalebi-32b752.netlify.app",
-  "http://localhost:5173",
-]);
+app.use(
+  cors({
+    origin: process.env.ALLOWED_ORIGIN || "*",
+  })
+);
+
+app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/fields", fieldRoutes);
 app.use("/api/reservations", reservationRoutes);
 app.use("/api/ads", adRoutes);
+app.use(cors({ origin: process.env.ALLOWED_ORIGIN || "*" }));
 
 app.use((req, res) => {
   res.status(404).json({ message: "❌ Ruta no encontrada" });
