@@ -25,11 +25,11 @@ app.options("*", cors());
 
 app.use(express.json());
 
-app.use("/api/auth", authRoutes);
+//app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/fields", fieldRoutes);
-app.use("/api/reservations", reservationRoutes);
-app.use("/api/ads", adRoutes);
+//app.use("/api/fields", fieldRoutes);
+//app.use("/api/reservations", reservationRoutes);
+//app.use("/api/ads", adRoutes);
 app.use(cors({ origin: process.env.ALLOWED_ORIGIN || "*" }));
 
 app.use((req, res) => {
