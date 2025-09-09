@@ -3,6 +3,9 @@ const router = express.Router();
 const { register, login } = require("../controllers/auth.controller");
 const verifyToken = require("../middlewares/auth.middleware");
 
+console.log("[ROUTE-LOAD] auth.routes"); // cambia el nombre según el archivo
+
+
 router.post("/register", register);
 router.post("/login", login);
 

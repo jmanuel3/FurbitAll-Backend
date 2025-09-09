@@ -8,6 +8,9 @@ const checkAdmin = require("../middlewares/admin.middleware");
 
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 
+console.log("[ROUTE-LOAD] product.routes"); // cambia el nombre según el archivo
+
+
 router.get("/", async (_req, res, next) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });

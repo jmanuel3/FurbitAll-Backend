@@ -12,6 +12,9 @@ const {
 const verifyToken = require("../middlewares/auth.middleware");
 const checkAdmin = require("../middlewares/admin.middleware");
 
+console.log("[ROUTE-LOAD] field.routes"); // cambia el nombre según el archivo
+
+
 router.get("/", getAllFields);
 router.get("/:id", getFieldById);
 
