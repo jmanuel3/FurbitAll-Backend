@@ -1,114 +1,140 @@
- 🐾 FurbitAll - BackEnd
+# 🐾 FurbitAll - Backend
 
-FurbitAll es una plataforma de adopción y gestión de mascotas desarrollada con Node.js y Express.  
-Este repositorio contiene la API y lógica del lado del servidor para el proyecto **FurbitAll**, que se conecta con el frontend desplegado en Netlify.
+## 📌 Descripción
+**FurbitAll** es una plataforma MERN desarrollada para la gestión y reserva de productos y canchas deportivas.  
+El backend provee una API REST segura, escalable y totalmente funcional, que gestiona usuarios, autenticación, productos, canchas, reservas y anuncios publicitarios.
 
----
-
-## 🚀 Tecnologías Utilizadas
-
-- **Node.js**
-- **Express.js**
-- **MongoDB (Mongoose)**
-- **JWT (Json Web Token)**
-- **bcryptjs**
-- **CORS**
-- **dotenv**
+Este proyecto forma parte del **Proyecto Final RAFA (RollingCode School)** y ha sido diseñado con **buenas prácticas, validaciones, seguridad JWT y un flujo CRUD completo.**
 
 ---
 
-## 🧩 Estructura del Proyecto
+## ⚙️ Tecnologías y Dependencias Principales
 
-```
+- **Node.js** + **Express.js** → Servidor y rutas
+- **MongoDB** + **Mongoose** → Base de datos y modelos
+- **JWT** + **bcryptjs** → Autenticación y cifrado
+- **CORS** → Configuración dinámica mediante variables de entorno
+- **Dotenv** → Manejo seguro de variables de entorno
+- **Validator / Joi** → Validaciones de datos en el backend
+- **Nodemon** → Desarrollo en caliente (dev)
+
+---
+
+## 📁 Estructura del Proyecto
+
 FurbitAll-BackEnd/
-├── controllers/       # Lógica principal de cada ruta
-├── middlewares/       # Autenticación y validaciones
-├── models/            # Esquemas de MongoDB
-├── routes/            # Endpoints del servidor
-├── .env.example       # Variables de entorno de ejemplo
-├── server.js          # Punto de entrada principal
+│
+├── controllers/ # Controladores para cada recurso (products, fields, ads, bookings, users)
+├── models/ # Modelos Mongoose
+├── routes/ # Rutas organizadas por entidad
+├── middlewares/ # Auth, validaciones, manejo de errores
+├── utils/ # Funciones auxiliares
+├── .env.example # Variables de entorno de ejemplo
+├── server.js # Configuración del servidor Express
 └── package.json
-```
+
 
 ---
 
-## ⚙️ Instalación y Configuración
+## 🔐 Autenticación y Roles
 
-1. **Clonar el repositorio**
-   ```bash
-   git clone https://github.com/tuusuario/FurbitAll-BackEnd.git
-   cd FurbitAll-BackEnd
-   ```
-
-2. **Instalar dependencias**
-   ```bash
-   npm install
-   ```
-
-3. **Configurar variables de entorno**
-   Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
-
-   ```env
-   PORT=5000
-   MONGODB_URI=tu_cadena_de_conexion_a_mongo
-   JWT_SECRET=tu_clave_secreta
-   FRONTEND_URL=https://furbitall.netlify.app
-   ```
-
-4. **Iniciar el servidor en desarrollo**
-   ```bash
-   npm run dev
-   ```
-
-5. **Servidor en producción**
-   ```bash
-   npm start
-   ```
+- Sistema de **login y registro con JWT**.
+- Middleware `verifyToken` para proteger rutas privadas.
+- Middleware `checkAdmin` para limitar el acceso de administración.
+- Rutas seguras para creación, edición y eliminación de datos.
 
 ---
 
-## 🔐 Rutas Principales
+## 🧩 Endpoints Principales
 
-| Método | Endpoint | Descripción |
-|--------|-----------|--------------|
-| GET | `/api/ads` | Obtener todos los anuncios |
-| POST | `/api/ads` | Crear nuevo anuncio (admin) |
-| GET | `/api/users` | Obtener todos los usuarios (admin) |
-| POST | `/api/auth/register` | Registrar usuario |
-| POST | `/api/auth/login` | Iniciar sesión |
+### 🛍️ Productos (`/api/products`)
+- `GET /` → Obtener todos los productos
+- `GET /:id` → Obtener producto por ID
+- `POST /` → Crear producto *(solo admin)*
+- `PATCH /:id` → Editar producto *(solo admin)*
+- `PATCH /stock/bulk` → Actualizar stock masivamente *(solo admin)*
+- `DELETE /:id` → Eliminar producto *(solo admin)*
+
+### ⚽ Canchas (`/api/fields`)
+- `GET /` → Obtener todas las canchas
+- `POST /` → Crear cancha *(solo admin)*
+- `PATCH /:id` → Editar cancha *(solo admin)*
+- `DELETE /:id` → Eliminar cancha *(solo admin)*
+
+### 📅 Reservas (`/api/bookings`)
+- `GET /` → Obtener todas las reservas
+- `POST /` → Crear reserva (con validación de disponibilidad)
+- `DELETE /:id` → Cancelar reserva
+
+### 📢 Anuncios (`/api/ads`)
+- `GET /` → Listado público de anuncios
+- `GET /admin` → Listado completo *(solo admin)*
+- `POST /` → Crear anuncio *(solo admin)*
+- `PATCH /:id` → Editar anuncio *(solo admin)*
+- `DELETE /:id` → Eliminar anuncio *(solo admin)*
 
 ---
 
-## ✅ Validaciones
+## 🧠 Validaciones
 
-El backend incluye middleware para verificar:
-- Tokens JWT
-- Roles de usuario (admin)
-- Validaciones de formularios en endpoints críticos
+- Validación de precios, stock y URLs correctas.
+- `precio >= 0`, `stock >= 0` obligatorio.
+- Validación de disponibilidad antes de crear reservas.
+- Manejo de errores `401`, `403`, `404` y `409`.
 
 ---
 
-## 🧪 Pruebas Locales
+## 🌐 CORS y Variables de Entorno
 
-Puedes probar la API usando **Postman** o **Thunder Client**.
+CORS configurado dinámicamente con `.env`:
+```env
+PORT=4000
+MONGO_URI=mongodb+srv://...
+JWT_SECRET=tu_secreto_jwt
+CORS_ORIGIN=https://tu-frontend.netlify.app
 
-Ejemplo:
+## 🚀 Deploy
+
+- **Backend:** [Render](https://render.com) o [Railway](https://railway.app)  
+- **Base de datos:** [MongoDB Atlas](https://www.mongodb.com/atlas)  
+- **Frontend:** [Netlify](https://www.netlify.com) o [Vercel](https://vercel.com)
+
+### 🔧 Pasos básicos de despliegue
+
+1. **Sube el repositorio** a GitHub.
+2. **Crea un nuevo servicio** en Render o Railway.
+3. **Configura las variables de entorno** en la plataforma (usa las mismas del archivo `.env`).
+4. **Conecta el repositorio** de GitHub y habilita el deploy automático.
+5. **Verifica las rutas** con herramientas como Postman o Thunder Client.
+6. **Actualiza la variable `CORS_ORIGIN`** con el dominio del frontend (Netlify o Vercel).
+
+---
+
+## 🧪 QA y Seguridad
+
+- Manejo detallado de errores con códigos `401`, `403`, `404` y `409`.  
+- Validaciones de datos en todos los endpoints.  
+- Tokens JWT con expiración y protección de rutas.  
+- Sanitización de entradas para evitar inyecciones.  
+- CORS configurado mediante `.env` para restringir orígenes en producción.  
+- Tests manuales realizados desde el frontend FurbitAll para verificar flujo de checkout, stock y reservas.
+
+---
+
+## 🧰 Scripts disponibles
+
 ```bash
-GET http://localhost:5000/api/ads
-```
+# Instalar dependencias
+npm install
 
----
+# Ejecutar en desarrollo
+npm run dev
 
-## 🌐 Deploy
+# Ejecutar en producción
+npm start
+🤝 Autor
 
-- **Frontend:** [Netlify](https://furbitall.netlify.app)
-- **Backend:** [Render](https://render.com)
-
----
-
-## 👥 Autor
-
-**José Manuel Carrasco Rivero**  
-💼 Desarrollador Full Stack  
-📧 [Tu correo de contacto]  
-🌐 [Tu perfil de GitHub o LinkedIn]
+Jose Manuel Carrasco Rivero
+Full Stack Developer certificado por RollingCode School
+📍 Experiencia internacional (Europa y Oceanía)
+🌎 Enfoque en desarrollo web, escalabilidad y usabilidad.
