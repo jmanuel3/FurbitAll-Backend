@@ -13,7 +13,7 @@ const {
 const verifyToken = require("../middlewares/auth.middleware");
 const checkAdmin = require("../middlewares/admin.middleware");
 
-console.log("[ROUTE-LOAD] reservation.routes");
+
 
 
 router.post("/", verifyToken, createReservation);
