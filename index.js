@@ -14,9 +14,9 @@ connectDB()
     process.exit(1);
   });
 
-app.use("/api", (req, res, next) => {
-  return res.status(404).json({ message: "Ruta de API no encontrada" });
-});
+// app.use("/api", (req, res, next) => {
+//   return res.status(404).json({ message: "Ruta de API no encontrada" });
+// });
 
 app.use((err, req, res, next) => {
   if (err.name === "CastError") {
